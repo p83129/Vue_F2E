@@ -130,7 +130,7 @@ export default {
         },
         //人物蓋板
         member_info(num){
-            alert(num);
+            //alert(num);
             let member = this.promise;
             console.log("seesee",member)
             let memberinfo_img = document.getElementById("memberinfo_img");
