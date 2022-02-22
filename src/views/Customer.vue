@@ -33,6 +33,7 @@
         </select>
       </div>
       <div class="total">
+        <span v-if="input.country != null ">篩選結果：{{promise.length}} 人，</span>
         <span>共：{{selected.length}} 人</span>
       </div>
       <!-- 編輯會員資料 -->
