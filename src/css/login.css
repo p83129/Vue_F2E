@@ -1,0 +1,88 @@
+body {
+    background-color: #f5f5f5;
+}
+.loading{
+    position:absolute;
+    left:0px;
+    top:0px;
+    background-color:#fff;
+    width:100%;  /*寬度100%，這樣才能使隱藏背景層覆蓋元頁面*/
+    filter:alpha(opacity=60);  /*透明度為60%*/
+    opacity:1;  /*非IE瀏覽器下設置透明度為90%*/
+    display:none;
+    z-index: 3;
+    height: 100vh;
+}
+.loadImg{
+    position: relative;
+    top: 40%;
+    width: 100px;
+}
+.text {
+    position: absolute;
+    text-align: left;
+    top: 0;;
+}
+#login_msg{
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #dc143c;
+    color: #fff;
+    padding: 10px;
+    font-size: 10px;
+    display: none;
+}
+.logo_div {
+    padding: 0 680px;
+    margin-top: 180px;
+}
+h3 {
+    text-align: center;
+} 
+.userinfo {
+    position: absolute;
+    width: 250px;
+    top: 40%;
+    left:42.3%;
+}
+.userinfo input {
+    width: 220px;
+    height: 20px;
+    padding: 5px;
+    border-width: thin;
+    border-color: #dcdcdc;
+}
+.userinfo .account {
+    border-radius: 5px 5px 0 0;
+}
+.userinfo .password {
+    border-radius: 0 0 5px 5px;
+    border-top-style: none;
+}
+.userinfo button {
+    position: relative;
+    width: 115px;
+    height: 30px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.submit {
+    border-radius: 5px 0 0 5px;
+    background-color: rgb(37,151,199);
+    border-color: rgb(37,151,199);
+    color: #fff;
+}
+.clear {
+    border-radius: 0 5px 5px 0;
+    background-color: #fff;
+    border-color: rgb(37,151,199);
+    color: rgb(37,151,199);
+    border-left-style: none;
+}
+.userinfo p {
+    margin-top: 30px;
+    font-size: 10px;
+    color: #c0c0c0;
+    text-align: center;
+}
