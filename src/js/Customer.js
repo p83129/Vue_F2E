@@ -54,12 +54,12 @@ export default{
                 localStorage.removeItem('token');
                 localStorage.removeItem('selected');
                 this.$router.push('/');
-                alert("+++++")
+                //alert("+++++")
             }
             // 登入
             else{
                 this.$router.push('/login');
-                alert("****")
+                //alert("****")
             }
         },   
         getpeopleData(){  
