@@ -1,18 +1,14 @@
 <template>
   <div id="index">
-    <div class="loading" IsLoading:IsLoading>
-      <img class="loadImg" src="@/assets/下載中.png">
-    </div>
-    <div class="hidebg"></div>
     <img class="logo" src="@/assets/logo.png" @click="index">
     <div id="nav">
       <div id="title">
         <router-link to="/">首頁 </router-link> 
         <router-link to="/admin">會員列表 </router-link>
-        <!-- <router-link to="/customer">自選清單</router-link> -->
+        <router-link to="/customer" v-if="selected != null">自選清單</router-link>
       </div>
       <div class="login_div">
-          <button id="login" class="login" @click="login">登入</button>
+          <button class="login" @click="login">登入</button>
       </div>
     </div>
       <h3>前端開發人力仲介</h3>
@@ -20,9 +16,17 @@
           <!-- 會員資料-蓋板 -->
           <div class="memberinfo_div">
               <div class="memberinfo_flex">
-                  <div class="memberinfo_img" id="memberinfo_img">
+                  <div class="memberinfo_img">
+                      <img :src="memberInfo.img">
                   </div>
-                  <div class="member_info" id="member_info">
+                  <div class="member_info">
+                        <ul>
+                            <li>{{memberInfo.name}}</li>
+                            <li>{{memberInfo.gender}}</li>
+                            <li>{{memberInfo.email}}</li>
+                            <li>{{memberInfo.phone}}</li>
+                            <li>{{memberInfo.age}}</li>
+                        </ul>
                   </div>
               </div>
               <!-- map -->
@@ -34,19 +38,19 @@
                   map-type-id="terrain"
                   style="height: 290px"
                   >
-                      <GmapMarker
-                          :key="index"
-                          v-for="(m, index) in markers"
-                          :position="m.position"
-                          :clickable="true"
-                          :draggable="true"
-                          @click="center=m.position"
-                      />
+                    <GmapMarker
+                        :key="index"
+                        v-for="(m, index) in markers"
+                        :position="m.position"
+                        :clickable="true"
+                        :draggable="true"
+                        @click="center=m.position"
+                    />
                   </GmapMap>                 
               </div>
           </div>
           <!-- 會員資料 -->
-          <div class="content" :id="1+num++" v-for="(item,num) in promise" :key="item.key" v-on:click="member_info(num-1,lat,lng)">
+          <div class="content" :id="num++" v-for="(item,num) in promise" :key="item.key" v-on:click="member_info(num-1,lat,lng)">
               <div class="username">{{item.name.first}} {{item.name.last}}</div>
               <img :src="item.picture.large">
               <div class="country">{{item.location.country}}</div>

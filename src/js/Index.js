@@ -3,12 +3,14 @@ export default {
     data(){
         return{
             promise: [],
+            memberInfo:[],
             data: [],
             page: 8, 
             currPage: 1,
             center: {},
             markers: [],
-            IsLoading: false
+            IsLoading: false,
+            selected:[]
         }
     },
     mounted(){
@@ -23,7 +25,7 @@ export default {
         // 判斷登入狀態
         login_state(){
             let title = document.getElementById("title");
-            let login = document.getElementById("login"); 
+            let login = document.querySelector(".login");  
             let msg = {login : '登入' , logout : '登出'};     
             const IsLogin = localStorage.getItem('token') == 'ImLogin';
             if(IsLogin){
@@ -33,15 +35,14 @@ export default {
                 // alert("!!!")
 
             }else{
-                this.$router.push('/');
+                this.$router.push('/').catch(()=>{});
             }
-        }, 
-        
+        },        
         // 登入&登出鈕
         login(){
             // 登出
             let title = document.getElementById("title");
-            let login = document.getElementById("login"); 
+            let login = document.querySelector(".login");  
             let msg = {login : '登入' , logout : '登出'};    
             if(login.innerText == msg.logout){
                 login.innerText = msg.login;
@@ -59,8 +60,10 @@ export default {
             }
         }, 
         getpeopleData(){
+            const Selected = JSON.parse(localStorage.getItem("selected"));
             let loading = document.querySelector(".loading");
             loading.style.display = 'block';
+            this.selected = Selected;
             this.IsLoading = true;  
             let peopleURL = "https://randomuser.me/api/?results=150";
             this.$axios.get(peopleURL)
@@ -84,7 +87,7 @@ export default {
             let Alldata = this.data;
             let array = [];
             let n=0;
-
+ 
             for(let i=(page-1)*perPage ; i<page*perPage ; i++){
                 array = Alldata[i];
                 this.$set(this.promise,n,array);
@@ -116,9 +119,9 @@ export default {
 
             //最後一頁
             }else{
+                this.promise = [];
                 for(let j=(page-1)*perPage ; j<((page-1)*perPage)+(dataTotal%perPage); j++){
-                    array = Alldata[j];
-                    
+                    array = Alldata[j];                  
                     this.$set(this.promise,n,array);
                     n++;                   
                 } 
@@ -130,20 +133,28 @@ export default {
         },
         //人物蓋板
         member_info(num){
-            alert(num);
-            let member = this.promise;
-            console.log("seesee",member)
-            let memberinfo_img = document.getElementById("memberinfo_img");
-            let img = document.createElement("img");
-            let member_info = document.getElementById("member_info");
-            let ul = document.createElement("ul");
-            let li_name = document.createElement("li");
-            let li_gender = document.createElement("li");
-            let li_email = document.createElement("li");
-            let li_phone = document.createElement("li");
-            let li_age = document.createElement("li");
+            // alert(num);
+            let member = this.promise[num];
+            let img = member.picture.large;
+            let name = member.name.first +" "+ member.name.last;
+            let gender = member.gender;
+            let email = member.email;
+            let phone = member.phone;
+            let age = member.dob.age;
             let hidebg = document.querySelector(".hidebg");
             let member_box = document.querySelector(".memberinfo_div");
+
+            hidebg.style.display = 'block';
+            member_box.style.display = 'block';
+
+            this.memberInfo = {
+                img,
+                name,
+                gender,
+                email,
+                phone,
+                age
+            };
             // let iframe = document.createElement("iframe");
             // let map = new VueGoogleMaps.gmapApi.maps.Map(document.getElementById("test"),{
             //     center:{
@@ -155,47 +166,16 @@ export default {
             //     zoom:8
             // });
             //從這裡開-----
-            let lat = parseFloat(member[num].location.coordinates.latitude);
-            let lng = parseFloat(member[num].location.coordinates.longitude);
+            let lat = parseFloat(member.location.coordinates.latitude);
+            let lng = parseFloat(member.location.coordinates.longitude);
             this.center = {lat,lng};
             this.markers = {position:this.center}
             // console.log("lololo",lat)
             // console.log("lololokokoko",lng)
 
-
-            li_name.textContent = member[num].name.first+"  "+member[num].name.last;
-            li_gender.textContent = member[num].gender;
-            li_email.textContent = member[num].email;
-            li_phone.textContent = member[num].phone;
-            li_age.textContent = member[num].dob.age;
-
-            img.setAttribute("src",member[num].picture.large)
-            img.setAttribute("id","img_id")
-            ul.setAttribute('id',"ul_id");
-
-            ul.appendChild(li_name);
-            ul.appendChild(li_gender);
-            ul.appendChild(li_email);
-            ul.appendChild(li_phone);
-            ul.appendChild(li_age);
-
-            memberinfo_img.appendChild(img);
-            member_info.appendChild(ul);
-
-            hidebg.style.display = 'block';
-            member_box.style.display = 'block';
-
             hidebg.onclick = function () {   
                 hidebg.style.display = "none";  
                 member_box.style.display = 'none';   
-                
-                let ul_id = document.getElementById("ul_id");
-                let img_id = document.getElementById("img_id");
-                let parentul = ul_id.parentNode;
-                let parentimg = img_id.parentNode;
-                parentul.removeChild(ul_id);
-                parentimg.removeChild(img_id);
-
             }
         },
 

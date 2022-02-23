@@ -44,26 +44,19 @@ export default{
           this.$router.push('/');
       }
     }, 
-    // 登入&登出鈕
+    // 登出
     login(){
-      // 登出
       let title = document.getElementById("title");
       let login = document.getElementById("login"); 
       let msg = {login : '登入' , logout : '登出'};    
-      if(login.innerText == msg.login){
-        login.innerText = msg.login;
-        title.style.visibility = 'hidden';
-        login.classList = 'login';
-        localStorage.removeItem('token');
-        localStorage.removeItem('selected');
-        this.$router.push('/');
+      login.innerText = msg.login;
+      title.style.visibility = 'hidden';
+      login.classList = 'login';
+      localStorage.removeItem('token');
+      localStorage.removeItem('selected');
+      this.$router.push('/');
         // alert("+++++")
-      }
-      // 登入
-      else{
-        this.$router.push('/login');
-        // alert("****")
-      }
+
     },   
     getpeopleData(){
       let loading = document.querySelector(".loading");
@@ -84,6 +77,89 @@ export default{
       .catch(err => {
         console.log(err.reponse);
       })
+    },
+    //儲存勾選資料
+    toggleCheckSingle() {                        
+      // let NewSelected = this.selected.filter((item) => item !== this.selected[num-1]);
+      // this.selected = NewSelected;
+      // let test = this.selected
+      localStorage.removeItem('selected');
+      localStorage.setItem('selected',JSON.stringify(this.selected));
+      console.log("test!!!! ",this.selected)
+
+    },   
+    //編輯會員資料
+    edit_btn(num){
+      // alert(num);
+      let hidebg = document.querySelector(".hidebg");
+      let edit_div = document.getElementById("edit_div");
+      let ensure = document.querySelector(".ensure_btn");
+      let close = document.querySelector(".close_btn");
+
+      //串接會員蓋板資料
+      let member = this.promise[num];
+      let img = member.picture.large;
+      let FirstName = member.name.first;
+      let LastName = member.name.last;
+      let Birth = member.dob.date;
+      let EMail = member.email;
+      let Gender = member.gender;
+      let Country = member.location.country;
+      let State = member.location.state;
+      let City = member.location.city;
+      let Street = member.location.street.name;
+      let Number = member.location.street.number;
+      let Lat = member.location.coordinates.latitude;
+      let Lng = member.location.coordinates.longitude;
+
+      this.memberInfo = {
+        img,
+        FirstName,
+        LastName,
+        Birth,
+        EMail,
+        Gender,
+        Country,
+        State,
+        City,
+        Street,
+        Number,
+        Lat,
+        Lng
+      };
+      console.log("testhihi",FirstName)
+
+      //遮罩
+      hidebg.style.display = 'block';
+      // hidebg.style.height = document.body.scrollHeight+"vh";
+      edit_div.style.display = 'block';
+
+      //變更圖片
+      // uploadFile(ee);
+
+      //點擊空白處消失
+      hidebg.onclick = function () {   
+        edit_div.style.display = 'none';
+        hidebg.style.display = "none";        
+      }
+      //確認按鈕
+      ensure.onclick = function(){
+        edit_div.style.display = 'none';
+        hidebg.style.display = "none"; 
+      }
+      //取消按鈕
+      close.onclick = function(){
+        edit_div.style.display = 'none';
+        hidebg.style.display = "none"; 
+      }
+
+      //esc鍵
+      document.addEventListener("keyup",function(event){
+        if(event.keyCode == 27) {
+          // alert("!!!")
+          document.getElementById("close").click(); 
+        }
+      });
     },
     Userdata(page){
       let perPage = 10;
@@ -141,74 +217,6 @@ export default{
           // console.log('sum-----',this.page)
       }
     },
-    //編輯會員資料
-    edit_btn(num){
-      // alert(num);
-      let hidebg = document.getElementById("hidebg");
-      let edit_div = document.getElementById("edit_div");
-      let close = document.getElementById("close");
-
-      //串接會員蓋板資料
-      let member = this.promise;
-      let img = member[num].picture.large;
-      let FirstName = member[num].name.first;
-      let LastName = member[num].name.last;
-      let Birth = member[num].dob.date;
-      let EMail = member[num].email;
-      let Gender = member[num].gender;
-      let Country = member[num].location.country;
-      let State = member[num].location.state;
-      let City = member[num].location.city;
-      let Street = member[num].location.street.name;
-      let Number = member[num].location.street.number;
-      let Lat = member[num].location.coordinates.latitude;
-      let Lng = member[num].location.coordinates.longitude;
-
-      this.memberInfo = {
-        img,
-        FirstName,
-        LastName,
-        Birth,
-        EMail,
-        Gender,
-        Country,
-        State,
-        City,
-        Street,
-        Number,
-        Lat,
-        Lng
-      };
-      console.log("testhihi",FirstName)
-
-      //遮罩
-      hidebg.style.display = 'block';
-      // hidebg.style.height = document.body.scrollHeight+"vh";
-      edit_div.style.display = 'block';
-
-      //變更圖片
-      // uploadFile(ee);
-
-      //點擊空白處消失
-      hidebg.onclick = function () {   
-        edit_div.style.display = 'none';
-        hidebg.style.display = "none";        
-      }
-
-      //取消按鈕
-      close.onclick = function(){
-        edit_div.style.display = 'none';
-        hidebg.style.display = "none"; 
-      }
-
-      //esc鍵
-      document.addEventListener("keyup",function(event){
-        if(event.keyCode == 27) {
-          // alert("!!!")
-          document.getElementById("close").click(); 
-        }
-      });
-    }
   },
   computed:{
     typeList(){

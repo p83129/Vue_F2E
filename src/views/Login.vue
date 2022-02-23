@@ -1,8 +1,5 @@
 <template>
   <div id="login">
-    <div class="loading" IsLoading:IsLoading>
-      <img class="loadImg" src="@/assets/下載中.png">
-    </div>
     <form class="login" @submit.prevent="login">
       <div class="text">
         <span>帳號：lucy.gutierrez@example.com</span><br>
@@ -15,8 +12,8 @@
         <img src="@/assets/logo.png">
         <h3>請登入</h3>
         <div class="userinfo">
-          <input class="account" type="email" placeholder="電子郵件"  title="請填寫這個欄位。" v-model="account">
-          <input class="password" type="password" placeholder="密碼"  title="請填寫這個欄位。" v-model="password">
+          <input class="account" type="email" placeholder="電子郵件"  title="請填寫這個欄位。" v-model="loginForm.account">
+          <input class="password" type="password" placeholder="密碼"  title="請填寫這個欄位。" v-model="loginForm.password">
           <button class="submit" @click="submit_Btn">送出</button>
           <button class="clear" @click="clear_Btn" >清除</button>
           <p>©2021 Design by Away</p>

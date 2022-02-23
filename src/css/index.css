@@ -57,35 +57,7 @@ a {
     margin: 0 auto;
     font-size: 14px;
 }
-.loading{
-    position:absolute;
-    left:0px;
-    top:0px;
-    background-color:#fff;
-    width:100%;  /*寬度100%，這樣才能使隱藏背景層覆蓋元頁面*/
-    filter:alpha(opacity=60);  /*透明度為60%*/
-    opacity:1;  /*非IE瀏覽器下設置透明度為90%*/
-    display:none;
-    z-index: 3;
-    height: 100vh;
-}
-.loadImg{
-    position: relative;
-    top: 40%;
-    width: 100px;
-}
-.hidebg{
-  position:absolute;
-  left:0px;
-  top:0px;
-  background-color:#000;
-  width:100%;  /*寬度100%，這樣才能使隱藏背景層覆蓋元頁面*/
-  filter:alpha(opacity=60);  /*透明度為60%*/
-  opacity:0.4;  /*非IE瀏覽器下設置透明度為60%*/
-  display:none;
-  z-index: 3;
-  height: 100vh;
-}
+
 /* 蓋板 */
 .memberinfo_div {
     position: absolute;
@@ -114,9 +86,9 @@ a {
     text-align: left;
 }
 .map_div{
-    /* background: #808080; */
     width: 400px;
     height: 300px;
+    padding: 0 10px;
 }
 /*  */
 .content {

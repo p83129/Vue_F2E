@@ -5,7 +5,7 @@ export default{
         data: [],
         page: '', 
         currPage: 1,
-        memberCount: '',
+        // memberCount: '',
         memberInfo: {},
         input:{
           country: null,
@@ -29,38 +29,28 @@ export default{
             let title = document.getElementById("title");
             let login = document.getElementById("login"); 
             let msg = {login : '登入' , logout : '登出'};     
-            // console.log(msg); 
             const IsLogin = localStorage.getItem('token') == 'ImLogin';
             if(IsLogin){
                 login.innerText = msg.logout;
                 title.style.visibility = 'visible';
                 login.classList = 'logout login';
-                // alert("!!!")
-    
+                // alert("!!!")  
             }else{
                 this.$router.push('/');
             }
         }, 
-        // 登入&登出鈕
+        // 登出
         login(){
-            // 登出
             let title = document.getElementById("title");
             let login = document.getElementById("login"); 
             let msg = {login : '登入' , logout : '登出'};    
-            if(login.innerText == msg.login){
-                login.innerText = msg.login;
-                title.style.visibility = 'hidden';
-                login.classList = 'login';
-                localStorage.removeItem('token');
-                localStorage.removeItem('selected');
-                this.$router.push('/');
-                alert("+++++")
-            }
-            // 登入
-            else{
-                this.$router.push('/login');
-                alert("****")
-            }
+            login.innerText = msg.login;
+            title.style.visibility = 'hidden';
+            login.classList = 'login';
+            localStorage.removeItem('token');
+            localStorage.removeItem('selected');
+            this.$router.push('/');
+
         },   
         getpeopleData(){  
             let loading = document.querySelector(".loading");
@@ -78,57 +68,59 @@ export default{
             }                    
             console.log("重整也不用擔心值不在啦NEW~~",this.selected)
             this.data =  this.selected; 
-            
+
             if(this.IsLoading == true){
                 this.IsLoading = false;
                 loading.style.display = 'none'
             }
             //第一頁
-            if(this.selected.length > 10){
-                this.pagination(1)
-            }else{
-                this.promise = this.selected
-            }           
-            
+            if(this.selected !== null){
+                if(this.selected.length > 10){
+                    this.pagination(1)
+                }else{
+                    this.promise = this.selected
+                } 
+            }                    
             // console.log(this.promise[0]);
         },
         //編輯會員資料
         edit_btn(num){
             // alert(num);
-            let hidebg = document.getElementById("hidebg");
+            let hidebg = document.querySelector(".hidebg");
             let edit_div = document.getElementById("edit_div");
-            let close = document.getElementById("close");
+            let ensure = document.querySelector(".ensure_btn");
+            let close = document.querySelector(".close_btn");
     
             //串接會員蓋板資料
-            let member = this.promise;
-            let img = member[num].picture.large;
-            let FirstName = member[num].name.first;
-            let LastName = member[num].name.last;
-            let Birth = member[num].dob.date;
-            let EMail = member[num].email;
-            let Gender = member[num].gender;
-            let Country = member[num].location.country;
-            let State = member[num].location.state;
-            let City = member[num].location.city;
-            let Street = member[num].location.street.name;
-            let Number = member[num].location.street.number;
-            let Lat = member[num].location.coordinates.latitude;
-            let Lng = member[num].location.coordinates.longitude;
+            let member = this.promise[num];
+            let img = member.picture.large;
+            let FirstName = member.name.first;
+            let LastName = member.name.last;
+            let Birth = member.dob.date;
+            let EMail = member.email;
+            let Gender = member.gender;
+            let Country = member.location.country;
+            let State = member.location.state;
+            let City = member.location.city;
+            let Street = member.location.street.name;
+            let Number = member.location.street.number;
+            let Lat = member.location.coordinates.latitude;
+            let Lng = member.location.coordinates.longitude;
     
             this.memberInfo = {
-            img,
-            FirstName,
-            LastName,
-            Birth,
-            EMail,
-            Gender,
-            Country,
-            State,
-            City,
-            Street,
-            Number,
-            Lat,
-            Lng
+                img,
+                FirstName,
+                LastName,
+                Birth,
+                EMail,
+                Gender,
+                Country,
+                State,
+                City,
+                Street,
+                Number,
+                Lat,
+                Lng
             };
             console.log("testhihi",FirstName)
     
@@ -142,14 +134,19 @@ export default{
     
             //點擊空白處消失
             hidebg.onclick = function () {   
-            edit_div.style.display = 'none';
-            hidebg.style.display = "none";        
+                edit_div.style.display = 'none';
+                hidebg.style.display = "none";        
             }
     
+            //確認按鈕
+            ensure.onclick = function(){
+                edit_div.style.display = 'none';
+                hidebg.style.display = "none"; 
+            }
             //取消按鈕
             close.onclick = function(){
-            edit_div.style.display = 'none';
-            hidebg.style.display = "none"; 
+                edit_div.style.display = 'none';
+                hidebg.style.display = "none"; 
             }
     
             //esc鍵
@@ -169,7 +166,7 @@ export default{
             localStorage.removeItem('selected');
             localStorage.setItem('selected',JSON.stringify(NewSelected));
 
-            //無資料跳回會員
+            //無資料跳回會員列表
             if(this.selected.length == 0){
                 this.$router.push('/admin');
             }

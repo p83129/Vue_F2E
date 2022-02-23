@@ -1,9 +1,5 @@
 <template>
   <div class="admin">
-    <div class="loading" IsLoading:IsLoading>
-      <img class="loadImg" src="@/assets/下載中.png">
-    </div>
-    <div id="hidebg" class="hidebg"></div>
     <img class="logo" src="@/assets/logo.png" @click="index">
     <div id="nav">
       <div id="title">
@@ -97,7 +93,7 @@
         </div>
         <div class="form_btn">
           <button class="ensure_btn">確定</button>
-          <button class="close_btn" id="close">取消</button>
+          <button class="close_btn">取消</button>
         </div>
       </div>
       <div class="table_div">
@@ -115,7 +111,10 @@
             </tr>
             <tr :id="1+num++" v-for="(item,num) in content" :key="item.key" class="userdata_tr">
               <td>
-                <input type="checkbox" :value="item" v-model="selected">
+                <input type="checkbox" 
+                :value="item" 
+                v-model="selected" 
+                @click="toggleCheckSingle(num)">
               </td>
               <td>
                 <div>

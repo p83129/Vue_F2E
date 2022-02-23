@@ -1,9 +1,5 @@
 <template>
   <div class="customer">
-    <div class="loading" IsLoading:IsLoading>
-      <img class="loadImg" src="@/assets/下載中.png">
-    </div>
-    <div id="hidebg" class="hidebg"></div>
     <img class="logo" src="@/assets/logo.png" @click="index">
     <div id="nav">
       <div id="title">
@@ -33,6 +29,7 @@
         </select>
       </div>
       <div class="total">
+        <span v-if="input.country != null ">篩選結果：{{promise.length}} 人，</span>
         <span>共：{{selected.length}} 人</span>
       </div>
       <!-- 編輯會員資料 -->
@@ -96,7 +93,7 @@
         </div>
         <div class="form_btn">
           <button class="ensure_btn">確定</button>
-          <button class="close_btn" id="close">取消</button>
+          <button class="close_btn">取消</button>
         </div>
       </div>
       <div class="table_div">
