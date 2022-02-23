@@ -146,7 +146,6 @@ export default {
 
             hidebg.style.display = 'block';
             member_box.style.display = 'block';
-
             this.memberInfo = {
                 img,
                 name,

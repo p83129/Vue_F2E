@@ -50,7 +50,6 @@ export default{
             localStorage.removeItem('token');
             localStorage.removeItem('selected');
             this.$router.push('/');
-
         },   
         getpeopleData(){  
             let loading = document.querySelector(".loading");
